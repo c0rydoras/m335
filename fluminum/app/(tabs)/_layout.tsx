@@ -1,35 +1,34 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Tabs } from "expo-router";
+import React from "react";
+import Icon from "~/components/icon";
+import { Cable, EqualSquare, Magnet } from "lucide-react-native";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
+          title: "Cable Finder",
+          tabBarIcon: (props) => <Icon icon={Cable} {...props} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="magnet-finder"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
+          title: "Magnet Finder",
+          tabBarIcon: (props) => <Icon icon={Magnet} {...props} />,
+        }}
+      />
+      <Tabs.Screen
+        name="spirit-level"
+        options={{
+          title: "Spirit Level",
+          tabBarIcon: (props) => <Icon icon={EqualSquare} {...props} />,
         }}
       />
     </Tabs>
