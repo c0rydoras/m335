@@ -8,7 +8,7 @@ export default function Screen() {
 
   React.useEffect(() => {
     const listener = Magnetometer.addListener((e) =>
-        setMagnetometerValue(e.x + e.y + e.z)
+        setMagnetometerValue(Math.sqrt((e.x*e.x) + (e.y*e.y) + (e.z*e.z)))
     );
 
     Magnetometer.setUpdateInterval(1);
