@@ -72,11 +72,9 @@ export default function RootLayout() {
         <Stack.Screen
           name="(tabs)"
           options={{
-            title: "Fluminum",
-            headerLeft: () => <LinkIcon href="/settings" Icon={Settings} />,
-            headerRight: () => (
-              <LinkIcon href="/calculator" Icon={Calculator} />
-            ),
+            title: "",
+            headerLeft: () => <LinkIcon href="/calculator" Icon={Calculator} />,
+            headerRight: () => <LinkIcon href="/settings" Icon={Settings} />,
           }}
         />
         <Stack.Screen
