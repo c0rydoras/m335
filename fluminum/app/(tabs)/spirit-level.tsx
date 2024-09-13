@@ -1,4 +1,3 @@
-import * as React from "react";
 import { View } from "react-native";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DeviceMotion } from "expo-sensors";
