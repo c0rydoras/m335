@@ -70,9 +70,9 @@ export default function Screen() {
               width={15}
               arcSweepAngle={180}
               fill={magnetometerValue/10}
-              tintColor="#00e0ff"
+              tintColor="#FFE500"
               backgroundColor="#3d5875" />
-          <Text className="text-muted-foreground">{magnetometerValue.toString()}</Text>
+          <Text className="text-muted-foreground text-6xl">{`${magnetometerValue.toString()}µT`}</Text>
             <CameraView
                 enableTorch={flashlightOn}
             />
