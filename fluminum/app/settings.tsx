@@ -6,6 +6,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Text } from "~/components/ui/text";
+import {ToggleGroup, ToggleGroupItem} from "~/components/ui/toggle-group";
 
 function Settings() {
   return (
@@ -29,7 +30,17 @@ function Settings() {
             <Text>Feedback Kinds</Text>
           </AccordionTrigger>
           <AccordionContent>
-            <Text>Sit Amet</Text>
+            <ToggleGroup onValueChange={()=>{}} value="visual" type="single">
+              <ToggleGroupItem value="vibration">
+                Vibration
+              </ToggleGroupItem>
+              <ToggleGroupItem value="visual">
+                Visuel
+              </ToggleGroupItem>
+              <ToggleGroupItem value="audio">
+                Audio
+              </ToggleGroupItem>
+            </ToggleGroup>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
