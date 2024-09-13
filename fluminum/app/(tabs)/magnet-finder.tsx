@@ -5,17 +5,17 @@ import { Text } from "~/components/ui/text";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import * as Haptics from 'expo-haptics';
 import { Audio } from 'expo-av';
-import { Sound } from "expo-av/build/Audio";
+import {Sound} from "expo-av/build/Audio";
 
 export default function Screen() {
   const [magnetometerValue, setMagnetometerValue] = React.useState<number>(0);
   const [sound, setSound] = React.useState<Sound>()
 
   async function loadSound() {
-    const asdf = await Audio.Sound.createAsync( require('../../assets/geiger-sound2.mp3'));
-    setSound(asdf.sound);
-    await asdf.sound.setIsLoopingAsync(true);
-    await asdf.sound.playAsync();
+    const {sound} = await Audio.Sound.createAsync( require('../../assets/geiger-sound.mp3'));
+    setSound(sound);
+    await sound.setIsLoopingAsync(true);
+    await sound.playAsync();
   }
 
   function calcSoundRate(absoluteMagnetometerValue:number) {
