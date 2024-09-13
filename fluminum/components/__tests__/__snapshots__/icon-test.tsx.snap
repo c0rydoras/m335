@@ -1,0 +1,497 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Icon /> with just icon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight={24}
+  bbWidth={24}
+  fill="none"
+  focusable={false}
+  height={24}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  stroke="currentColor"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  strokeWidth={2}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 24,
+        "width": 24,
+      },
+    ]
+  }
+  vbHeight={24}
+  vbWidth={24}
+  width={24}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+        "stroke",
+        "strokeWidth",
+        "strokeLinecap",
+        "strokeLinejoin",
+      ]
+    }
+    stroke={
+      {
+        "type": 2,
+      }
+    }
+    strokeLinecap={1}
+    strokeLinejoin={1}
+    strokeWidth={2}
+  >
+    <RNSVGCircle
+      cx="12"
+      cy="12"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      r="4"
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="M12 2v2"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="M12 20v2"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="m4.93 4.93 1.41 1.41"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="m17.66 17.66 1.41 1.41"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="M2 12h2"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="M20 12h2"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="m6.34 17.66-1.41 1.41"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="m19.07 4.93-1.41 1.41"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;
+
+exports[`<Icon /> with props 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight={50}
+  bbWidth={50}
+  fill="none"
+  focusable={false}
+  height={50}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  stroke="currentColor"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  strokeWidth={2}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 50,
+        "width": 50,
+      },
+    ]
+  }
+  vbHeight={24}
+  vbWidth={24}
+  width={50}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+        "stroke",
+        "strokeWidth",
+        "strokeLinecap",
+        "strokeLinejoin",
+      ]
+    }
+    stroke={
+      {
+        "type": 2,
+      }
+    }
+    strokeLinecap={1}
+    strokeLinejoin={1}
+    strokeWidth={2}
+  >
+    <RNSVGCircle
+      cx="12"
+      cy="12"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      r="4"
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="M12 2v2"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="M12 20v2"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="m4.93 4.93 1.41 1.41"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="m17.66 17.66 1.41 1.41"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="M2 12h2"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="M20 12h2"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="m6.34 17.66-1.41 1.41"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+    <RNSVGPath
+      d="m19.07 4.93-1.41 1.41"
+      fill={null}
+      propList={
+        [
+          "fill",
+          "stroke",
+          "strokeWidth",
+          "strokeLinecap",
+          "strokeLinejoin",
+        ]
+      }
+      stroke={
+        {
+          "type": 2,
+        }
+      }
+      strokeLinecap={1}
+      strokeLinejoin={1}
+      strokeWidth={2}
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;
