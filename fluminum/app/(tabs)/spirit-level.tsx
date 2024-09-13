@@ -1,8 +1,10 @@
 import * as React from "react";
 import { View } from "react-native";
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {DeviceMotion} from "expo-sensors";
 import Svg, {Text,Line, Polygon} from "react-native-svg";
+import {Text as UiText} from "~/components/ui/text"
+import {Button} from "~/components/ui/button";
 
 export default function Screen() {
     const [{beta, gamma}, setData] = useState({
@@ -13,22 +15,28 @@ export default function Screen() {
         betaDisplay: 0,
         gammaDisplay: 0,
     })
+    const betaOfset = useRef(0)
+    const gammaOfset = useRef(0)
 
     const [pointsTop, setPointsTop] = useState("");
     const [pointsLeft, setPointsLeft] = useState("");
     useEffect(() => {
         DeviceMotion.setUpdateInterval(25)
-        DeviceMotion.addListener(data => {
+        console.log("hi")
+        const listener = DeviceMotion.addListener(data => {
             if(data && data.rotation) {
-                setData(data.rotation)
+                const localData = {beta: 0, gamma: 0};
+                localData.beta = data.rotation.beta - betaOfset.current
+                localData.gamma = data.rotation.gamma - gammaOfset.current
+                setData(localData)
                 const localDisplayData = {betaDisplay: 0, gammaDisplay: 0,}
-                localDisplayData.betaDisplay = 180 / Math.PI * data.rotation.beta
-                localDisplayData.gammaDisplay = 180 / Math.PI * data.rotation.gamma
+                localDisplayData.betaDisplay = (180 / Math.PI * (data.rotation.beta-betaOfset.current))
+                localDisplayData.gammaDisplay = (180 / Math.PI * (data.rotation.gamma-gammaOfset.current))
                 setDisplayData(localDisplayData)
             }
         })
         return () => {
-            DeviceMotion.removeAllListeners()
+            listener.remove()
         }
     }, []);
 
@@ -49,18 +57,28 @@ export default function Screen() {
     }
 
   return (
-    <View className="relative h-72 flex gap-5 m-10">
-        <View>
-            <Svg viewBox="0 0 100 100">
+      <View className="flex-row flex justify-center w-full">
+
+          <View className="w-[95%] h-[90%] flex items-center justify-center flex-col">
+              <Svg viewBox="0 0 100 100">
                 <Polygon fill="#FFE500" points={pointsTop}/>
                 <Polygon fill="#FFE500" points={pointsLeft}/>
                 <Line stroke={"black"} x1={0} y1={0} x2={100} y2={100}/>
                 <Line stroke={"black"} x1={100} y1={0} x2={0} y2={100}/>
-                <Text textAnchor="middle" y="25" x="50">{(betaDisplay).toFixed(0)+"°"}</Text>
-                <Text textAnchor="middle" y="75" x="50">{(-(betaDisplay)).toFixed(0)+"°"}</Text>
-                <Text textAnchor="middle" y="50" x="25">{(gammaDisplay).toFixed(0)+"°"}</Text>
-                <Text textAnchor="middle" y="50" x="75">{(-(gammaDisplay)).toFixed(0)+"°"}</Text>
+                  <Text textAnchor="middle" y="20" x="50">{(betaDisplay).toFixed(0) + "°"}</Text>
+                  <Text textAnchor="middle" y="80" x="50">{(-(betaDisplay)).toFixed(0) + "°"}</Text>
+                  <Text textAnchor="middle" y="50" x="20">{(gammaDisplay).toFixed(0) + "°"}</Text>
+                  <Text textAnchor="middle" y="50"
+                        x="80">{(-(gammaDisplay)).toFixed(0) + "°"}</Text>
             </Svg>
+              <Button onPress={()=>{
+                  betaOfset.current = beta + betaOfset.current
+                  gammaOfset.current = gamma + gammaOfset.current
+              }} className="bottom-0 bg-[#FFE500] text-black w-2/3">
+                  <UiText className="text-black">
+                      Referenzpunkt Setzen
+                  </UiText>
+              </Button>
         </View>
     </View>
   );
