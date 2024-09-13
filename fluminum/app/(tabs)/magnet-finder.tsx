@@ -6,10 +6,12 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import * as Haptics from 'expo-haptics';
 import { Audio } from 'expo-av';
 import {Sound} from "expo-av/build/Audio";
+import {CameraView} from "expo-camera";
 
 export default function Screen() {
   const [magnetometerValue, setMagnetometerValue] = React.useState<number>(0);
-  const [sound, setSound] = React.useState<Sound>()
+  const [sound, setSound] = React.useState<Sound>();
+  const [flashlightOn, setFlashlightOn] = React.useState(false);
 
   async function loadSound() {
     const {sound} = await Audio.Sound.createAsync( require('../../assets/geiger-sound.mp3'));
@@ -33,6 +35,8 @@ export default function Screen() {
         setMagnetometerValue(absoluteMagnetometerValue);
         if(Date.now() > time) {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+            setFlashlightOn((value) => !value)
+
             const newSoundRate = calcSoundRate(absoluteMagnetometerValue)
             let soundRateUpdateThreshold = Math.abs((newSoundRate - oldSoundRate))
             if(soundRateUpdateThreshold < 0 || soundRateUpdateThreshold > 32) {
@@ -69,6 +73,9 @@ export default function Screen() {
               tintColor="#00e0ff"
               backgroundColor="#3d5875" />
           <Text className="text-muted-foreground">{magnetometerValue.toString()}</Text>
+            <CameraView
+                enableTorch={flashlightOn}
+            />
         </View>
   );
 }
