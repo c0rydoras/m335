@@ -21,20 +21,25 @@ export default function chart(){
     useEffect(() => {
         Magnetometer.setUpdateInterval(1);
         const listener=Magnetometer.addListener((result)=>{
-            setDataNowWorking((d)=>[{time: Date.now(),value:Math.sqrt( (result.x**2)+(result.y**2)+result.z**2)},...d])
-            console.log(data)
+            setDataNowWorking((d)=>[...d,{time: Date.now(),value:Math.sqrt( (result.x**2)+(result.y**2)+result.z**2)}])
             if(data.length == 1024){
                 test()
             }
         })
-        const callback = setInterval(()=>{
-            /*setDisplayData(data.slice(-10))
-            console.log(data)
-            console.log(displayData)*/
-        },1000)
+
         return ()=>{listener.remove()
-            clearInterval(callback)}
+            }
     }, [data]);
+
+
+    useEffect(() => {
+        const calback = setInterval(()=>{
+            setDisplayData(data.slice(-10))
+            console.log(calback)
+        },1000)
+        return ()=>clearInterval(calback)
+    }, []);
+
 
     function test (){
         /*const storage = []
