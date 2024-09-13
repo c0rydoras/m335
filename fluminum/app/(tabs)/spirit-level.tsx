@@ -11,15 +11,9 @@ export default function Screen() {
         beta: 0,
         gamma: 0,
     });
-    const [{betaDisplay,gammaDisplay}, setDisplayData] = useState({
-        betaDisplay: 0,
-        gammaDisplay: 0,
-    })
+
     const betaOfset = useRef(0)
     const gammaOfset = useRef(0)
-
-    const [pointsTop, setPointsTop] = useState("");
-    const [pointsLeft, setPointsLeft] = useState("");
     useEffect(() => {
         DeviceMotion.setUpdateInterval(25)
         console.log("hi")
@@ -29,10 +23,6 @@ export default function Screen() {
                 localData.beta = data.rotation.beta - betaOfset.current
                 localData.gamma = data.rotation.gamma - gammaOfset.current
                 setData(localData)
-                const localDisplayData = {betaDisplay: 0, gammaDisplay: 0,}
-                localDisplayData.betaDisplay = (180 / Math.PI * (data.rotation.beta-betaOfset.current))
-                localDisplayData.gammaDisplay = (180 / Math.PI * (data.rotation.gamma-gammaOfset.current))
-                setDisplayData(localDisplayData)
             }
         })
         return () => {
@@ -40,21 +30,29 @@ export default function Screen() {
         }
     }, []);
 
-    useMemo(() => {
-        calculatePoints(180 / Math.PI * beta, 180 / Math.PI * gamma)
-    }, [pointsTop, pointsLeft, beta, gamma]);
+    const {pointsTop,pointsLeft}=useMemo(() => {
+        return calculatePoints(180 / Math.PI * beta, 180 / Math.PI * gamma)
+    }, [beta, gamma]);
 
     function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
         const MidlePoint = "50,50"
         const topY = 50 - topBottomDeg / 90 * 50
         const topX1 = topY
         const topX2 = 100 - topY
-        setPointsTop(MidlePoint + ` ${topX1},${topY} ${topX2},${topY}`)
+        const pointsTop = MidlePoint + ` ${topX1},${topY} ${topX2},${topY}`
         const leftX = 50 - leftRightDeg / 90 * 50
         const leftY1 = leftX
         const leftY2 = 100 - leftX
-        setPointsLeft(MidlePoint + ` ${leftX},${leftY1} ${leftX},${leftY2}`)
+        const pointsLeft = MidlePoint + ` ${leftX},${leftY1} ${leftX},${leftY2}`
+        return {pointsTop,pointsLeft}
     }
+    const {betaDisplay,gammaDisplay} = useMemo(
+        () => ({
+            betaDisplay: (180 / Math.PI) * beta,
+            gammaDisplay: (180 / Math.PI) * gamma,
+        }),
+        [beta,gamma],
+    );
 
   return (
       <View className="flex-row flex justify-center w-full">
