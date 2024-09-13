@@ -28,7 +28,7 @@ export function ThemeToggle() {
           <Icon
             icon={isDarkColorScheme ? MoonStar : Sun}
             className="text-foreground"
-            size={23}
+            size={27}
             strokeWidth={1.25}
           />
         </View>
