@@ -1,24 +1,84 @@
-import { Magnetometer, type MagnetometerMeasurement } from "expo-sensors";
+import { Magnetometer } from "expo-sensors";
 import * as React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
+import * as Haptics from "expo-haptics";
+import { Audio } from "expo-av";
+import { Sound } from "expo-av/build/Audio";
+import { CameraView } from "expo-camera";
+
+export function calcSoundRate(absoluteMagnetometerValue: number) {
+  return 1 + (4 * absoluteMagnetometerValue) / 1000;
+}
 
 export default function Screen() {
-  const [datas, setDatas] = React.useState<MagnetometerMeasurement[]>([]);
+  const [magnetometerValue, setMagnetometerValue] = React.useState<number>(0);
+  const [sound, setSound] = React.useState<Sound>();
+  const [flashlightOn, setFlashlightOn] = React.useState(false);
+
+  async function loadSound() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../../assets/geiger-sound.mp3"),
+    );
+    setSound(sound);
+    await sound.setIsLoopingAsync(true);
+    await sound.playAsync();
+  }
 
   React.useEffect(() => {
-    const l = Magnetometer.addListener((e) =>
-      setDatas((d) => [...d, e].slice(-5)),
-    );
+    if (sound === undefined) return;
 
-    Magnetometer.setUpdateInterval(1);
+    let time = 0;
+    let oldSoundRate = 1;
+    const listener = Magnetometer.addListener(async (measurement) => {
+      const absoluteMagnetometerValue = Math.sqrt(
+        measurement.x ** 2 + measurement.y ** 2 + measurement.z ** 2,
+      );
+      if (absoluteMagnetometerValue == 0) return;
+      setMagnetometerValue(absoluteMagnetometerValue);
+      if (Date.now() > time) {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+        setFlashlightOn((value) => !value);
 
-    () => l.remove();
+        const newSoundRate = calcSoundRate(absoluteMagnetometerValue);
+        let soundRateUpdateThreshold = Math.abs(newSoundRate - oldSoundRate);
+        if (soundRateUpdateThreshold < 0 || soundRateUpdateThreshold > 32) {
+          soundRateUpdateThreshold = 1;
+        }
+        if (soundRateUpdateThreshold > 0.2) {
+          sound.setRateAsync(newSoundRate, false);
+          oldSoundRate = newSoundRate;
+        }
+        time = Date.now() + 20000 / absoluteMagnetometerValue;
+      }
+    });
+
+    Magnetometer.setUpdateInterval(30);
+
+    return () => {
+      listener.remove();
+      sound?.unloadAsync();
+    };
+  }, [sound]);
+
+  React.useEffect(() => {
+    loadSound();
   }, []);
 
   return (
     <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
-      <Text className="text-muted-foreground">{JSON.stringify(datas)}</Text>
+      <AnimatedCircularProgress
+        size={300}
+        rotation={270}
+        width={15}
+        arcSweepAngle={180}
+        fill={magnetometerValue / 10}
+        tintColor="#FFE500"
+        backgroundColor="#3d5875"
+      />
+      <Text className="text-muted-foreground text-6xl">{`${magnetometerValue.toFixed(2)}µT`}</Text>
+      <CameraView enableTorch={flashlightOn} />
     </View>
   );
 }
