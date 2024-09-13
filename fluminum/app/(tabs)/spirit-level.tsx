@@ -6,6 +6,18 @@ import Svg, {Text,Line, Polygon} from "react-native-svg";
 import {Text as UiText} from "~/components/ui/text"
 import {Button} from "~/components/ui/button";
 
+export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
+    const midlePoint = "50,50"
+    const topY = 50 - topBottomDeg / 90 * 50
+    const topX1 = topY
+    const topX2 = 100 - topY
+    const pointsTop = midlePoint + ` ${topX1},${topY} ${topX2},${topY}`
+    const leftX = 50 - leftRightDeg / 90 * 50
+    const leftY1 = leftX
+    const leftY2 = 100 - leftX
+    const pointsLeft = midlePoint + ` ${leftX},${leftY1} ${leftX},${leftY2}`
+    return {pointsTop,pointsLeft}
+}
 export default function Screen() {
     const [{beta, gamma}, setData] = useState({
         beta: 0,
@@ -34,18 +46,7 @@ export default function Screen() {
         return calculatePoints(180 / Math.PI * beta, 180 / Math.PI * gamma)
     }, [beta, gamma]);
 
-    function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
-        const MidlePoint = "50,50"
-        const topY = 50 - topBottomDeg / 90 * 50
-        const topX1 = topY
-        const topX2 = 100 - topY
-        const pointsTop = MidlePoint + ` ${topX1},${topY} ${topX2},${topY}`
-        const leftX = 50 - leftRightDeg / 90 * 50
-        const leftY1 = leftX
-        const leftY2 = 100 - leftX
-        const pointsLeft = MidlePoint + ` ${leftX},${leftY1} ${leftX},${leftY2}`
-        return {pointsTop,pointsLeft}
-    }
+
     const {betaDisplay,gammaDisplay} = useMemo(
         () => ({
             betaDisplay: (180 / Math.PI) * beta,
