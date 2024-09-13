@@ -1,7 +1,6 @@
 import { calculatePoints } from "~/app/(tabs)/spirit-level";
 import { render } from "@testing-library/react-native";
 import Svg, { Line, Polygon, Text } from "react-native-svg";
-import * as React from "react";
 
 describe("calculatePoints", () => {
   test("topBottomDeg 0 leftRightDeg 0", () => {
