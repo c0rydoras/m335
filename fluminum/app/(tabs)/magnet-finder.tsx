@@ -8,6 +8,10 @@ import { Audio } from 'expo-av';
 import {Sound} from "expo-av/build/Audio";
 import {CameraView} from "expo-camera";
 
+export function calcSoundRate(absoluteMagnetometerValue:number) {
+    return 1 + ((4*absoluteMagnetometerValue)/1000)
+}
+
 export default function Screen() {
   const [magnetometerValue, setMagnetometerValue] = React.useState<number>(0);
   const [sound, setSound] = React.useState<Sound>();
@@ -20,17 +24,13 @@ export default function Screen() {
     await sound.playAsync();
   }
 
-  function calcSoundRate(absoluteMagnetometerValue:number) {
-    return 1 + ((4*absoluteMagnetometerValue)/1000)
-  }
-
   React.useEffect(() => {
     if (sound === undefined) return;
 
     let time = 0;
     let oldSoundRate = 1;
     const listener = Magnetometer.addListener(async (e) => {
-        const absoluteMagnetometerValue = Number((Math.sqrt((e.x*e.x) + (e.y*e.y) + (e.z*e.z)).toFixed(2)));
+        const absoluteMagnetometerValue = Number((Math.sqrt((e.x**2) + (e.y**2) + (e.z**2)).toFixed(2)));
         if (absoluteMagnetometerValue == 0) return;
         setMagnetometerValue(absoluteMagnetometerValue);
         if(Date.now() > time) {
