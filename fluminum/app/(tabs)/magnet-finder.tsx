@@ -25,7 +25,7 @@ export default function Screen() {
   }
 
   React.useEffect(() => {
-    if (sound == undefined) return;
+    if (sound === undefined) return;
 
     let time = 0;
     let oldSoundRate = 1;
