@@ -1,4 +1,19 @@
-import { isNull, calcuateMap } from "~/app/calculator";
+import { isNull, calcuateMap, titelize } from "~/app/calculator";
+
+test("titelize works", () => {
+  expect(titelize("volt")).toBe("Volt");
+  expect(titelize("ampere")).toBe("Ampere");
+  expect(titelize("watt")).toBe("Watt");
+  expect(titelize("")).toBe("");
+});
+
+test("isNull works", () => {
+  expect(isNull("value")).toBe(false);
+  expect(isNull(undefined)).toBe(false);
+  expect(isNull(0)).toBe(false);
+  expect(isNull(false)).toBe(false);
+  expect(isNull(null)).toBe(true);
+});
 
 describe("calc volt", () => {
   test("valid values work", () => {

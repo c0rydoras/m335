@@ -18,7 +18,8 @@ export type State = {
 };
 
 export const isNull = (val: unknown): val is null => val === null;
-export const titelize = (str: string) => str[0].toUpperCase() + str.slice(1);
+export const titelize = (str: string) =>
+  str ? str[0].toUpperCase() + str.slice(1) : str;
 
 export const calcuateMap: Record<keyof State, (state: State) => number | null> =
   {
