@@ -29,8 +29,8 @@ export default function Screen() {
 
     let time = 0;
     let oldSoundRate = 1;
-    const listener = Magnetometer.addListener(async (e) => {
-        const absoluteMagnetometerValue = Number((Math.sqrt((e.x**2) + (e.y**2) + (e.z**2)).toFixed(2)));
+    const listener = Magnetometer.addListener(async (measurement) => {
+        const absoluteMagnetometerValue = (Math.sqrt((measurement.x**2) + (measurement.y**2) + (measurement.z**2)));
         if (absoluteMagnetometerValue == 0) return;
         setMagnetometerValue(absoluteMagnetometerValue);
         if(Date.now() > time) {
@@ -72,7 +72,7 @@ export default function Screen() {
               fill={magnetometerValue/10}
               tintColor="#FFE500"
               backgroundColor="#3d5875" />
-          <Text className="text-muted-foreground text-6xl">{`${magnetometerValue.toString()}µT`}</Text>
+          <Text className="text-muted-foreground text-6xl">{`${magnetometerValue.toFixed(2)}µT`}</Text>
             <CameraView
                 enableTorch={flashlightOn}
             />
