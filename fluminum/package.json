@@ -25,6 +25,9 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "expo": "^51.0.24",
+    "expo-av": "~14.0.7",
+    "expo-camera": "^15.0.15",
+    "expo-haptics": "~13.0.1",
     "expo-linking": "~6.3.1",
     "expo-navigation-bar": "~3.0.7",
     "expo-router": "~3.5.20",
@@ -47,9 +50,7 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "3.3.5",
     "tailwindcss-animate": "^1.0.7",
-    "zustand": "^4.4.7",
-    "expo-haptics": "~13.0.1",
-    "expo-av": "~14.0.7"
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
