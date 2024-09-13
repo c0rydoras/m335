@@ -15,7 +15,6 @@ export default function Screen() {
     useState<number>(0);
 
   useEffect(() => {
-    Magnetometer.setUpdateInterval(1);
     const listener = Magnetometer.addListener((data) => {
       setAbsoluteMagnetometerValue(calculateAbsoluteMagnetometerValue(data));
     });
