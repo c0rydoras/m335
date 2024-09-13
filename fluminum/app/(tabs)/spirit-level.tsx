@@ -7,15 +7,15 @@ import {Text as UiText} from "~/components/ui/text"
 import {Button} from "~/components/ui/button";
 
 export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
-    const midlePoint = "50,50"
+    const middlePoint = "50,50"
     const topY = 50 - topBottomDeg / 90 * 50
     const topX1 = topY
     const topX2 = 100 - topY
-    const pointsTop = midlePoint + ` ${topX1},${topY} ${topX2},${topY}`
+    const pointsTop = middlePoint + ` ${topX1},${topY} ${topX2},${topY}`
     const leftX = 50 - leftRightDeg / 90 * 50
     const leftY1 = leftX
     const leftY2 = 100 - leftX
-    const pointsLeft = midlePoint + ` ${leftX},${leftY1} ${leftX},${leftY2}`
+    const pointsLeft = middlePoint + ` ${leftX},${leftY1} ${leftX},${leftY2}`
     return {pointsTop,pointsLeft}
 }
 export default function Screen() {
@@ -28,7 +28,6 @@ export default function Screen() {
     const gammaOfset = useRef(0)
     useEffect(() => {
         DeviceMotion.setUpdateInterval(25)
-        console.log("hi")
         const listener = DeviceMotion.addListener(data => {
             if(data && data.rotation) {
                 const localData = {beta: 0, gamma: 0};
@@ -42,9 +41,9 @@ export default function Screen() {
         }
     }, []);
 
-    const {pointsTop,pointsLeft}=useMemo(() => {
-        return calculatePoints(180 / Math.PI * beta, 180 / Math.PI * gamma)
-    }, [beta, gamma]);
+    const {pointsTop, pointsLeft} = useMemo(() =>
+            calculatePoints(180 / Math.PI * beta, 180 / Math.PI * gamma)
+        , [beta, gamma]);
 
 
     const {betaDisplay,gammaDisplay} = useMemo(
