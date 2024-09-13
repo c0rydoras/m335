@@ -1,9 +1,10 @@
 import { View } from "react-native";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { DeviceMotion } from "expo-sensors";
 import Svg, { Text, Line, Polygon } from "react-native-svg";
 import { Text as UiText } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
+import { useFocusEffect } from "expo-router";
 
 export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
   const middlePoint = "50,50";
@@ -25,20 +26,23 @@ export default function Screen() {
 
   const betaOfset = useRef(0);
   const gammaOfset = useRef(0);
-  useEffect(() => {
-    DeviceMotion.setUpdateInterval(25);
-    const listener = DeviceMotion.addListener((data) => {
-      if (data && data.rotation) {
-        const localData = { beta: 0, gamma: 0 };
-        localData.beta = data.rotation.beta - betaOfset.current;
-        localData.gamma = data.rotation.gamma - gammaOfset.current;
-        setData(localData);
-      }
-    });
-    return () => {
-      listener.remove();
-    };
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      DeviceMotion.setUpdateInterval(25);
+      const listener = DeviceMotion.addListener((data) => {
+        if (data && data.rotation) {
+          const localData = { beta: 0, gamma: 0 };
+          localData.beta = data.rotation.beta - betaOfset.current;
+          localData.gamma = data.rotation.gamma - gammaOfset.current;
+          setData(localData);
+        }
+      });
+      return () => {
+        listener.remove();
+      };
+    }, []),
+  );
 
   const { pointsTop, pointsLeft } = useMemo(
     () => calculatePoints((180 / Math.PI) * beta, (180 / Math.PI) * gamma),
