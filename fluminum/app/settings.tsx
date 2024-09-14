@@ -16,7 +16,7 @@ import {
 
 function Settings() {
     const [feedbackValue, setFeedbackValue] = useState<string[]>([]);
-    const [angleUnit, setAngleUnit] = useState<string>("rad");
+    const [angleUnit, setAngleUnit] = useState<string>("deg");
     const [isLoading, setIsLoading] = useState(true);
 
     useMemo(async () => {
@@ -50,8 +50,8 @@ function Settings() {
     };
 
     const angleUnits: { [key:string]: string;} = {
-        "rad": "Rad",
         "deg": "Deg",
+        "rad": "Rad",
         "percent": "Percent"
     }
 
@@ -68,11 +68,11 @@ function Settings() {
             <SelectContent insets={contentInsets} className='w-[250px]'>
                 <SelectGroup>
                     <SelectLabel>Angle units</SelectLabel>
-                    <SelectItem label='Rad' value='rad'>
-                        Rad
-                    </SelectItem>
                     <SelectItem label='Deg' value='deg'>
                         Deg
+                    </SelectItem>
+                    <SelectItem label='Rad' value='rad'>
+                        Rad
                     </SelectItem>
                     <SelectItem label='Percent' value='percent'>
                         Percent

@@ -5,6 +5,7 @@ import Svg, { Text, Line, Polygon } from "react-native-svg";
 import { Text as UiText } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useFocusEffect } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
   const middlePoint = "50,50";
@@ -18,11 +19,24 @@ export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
   const pointsLeft = middlePoint + ` ${leftX},${leftY1} ${leftX},${leftY2}`;
   return { pointsTop, pointsLeft };
 }
+
+export function calculateCorrectAngleUnit(angleUnit: string, radValue: number) {
+  if(angleUnit === 'deg') {
+    return (180 / Math.PI) * radValue
+  }
+  if(angleUnit === 'percent') {
+    return Math.tan(radValue) * 100
+  }
+  return radValue;
+}
+
 export default function Screen() {
   const [{ beta, gamma }, setData] = useState({
     beta: 0,
     gamma: 0,
   });
+
+  const [angleUnit, setAngleUnit] = useState<string>('deg');
 
   const betaOfset = useRef(0);
   const gammaOfset = useRef(0);
@@ -38,6 +52,11 @@ export default function Screen() {
           setData(localData);
         }
       });
+
+      AsyncStorage.getItem("angleUnit").then((storedAngleUnit) => {
+        storedAngleUnit && setAngleUnit(storedAngleUnit);
+      })
+
       return () => {
         listener.remove();
       };
@@ -51,11 +70,17 @@ export default function Screen() {
 
   const { betaDisplay, gammaDisplay } = useMemo(
     () => ({
-      betaDisplay: (180 / Math.PI) * beta,
-      gammaDisplay: (180 / Math.PI) * gamma,
+      betaDisplay: calculateCorrectAngleUnit(angleUnit, beta),
+      gammaDisplay: calculateCorrectAngleUnit(angleUnit, gamma),
     }),
     [beta, gamma],
   );
+
+  const angleUnitSymbols : { [key:string]: string;} = {
+    'deg': '°',
+    'rad': 'rad',
+    'percent': '%'
+  }
 
   return (
     <View className="flex-row flex justify-center w-full">
@@ -66,16 +91,16 @@ export default function Screen() {
           <Line stroke={"black"} x1={0} y1={0} x2={100} y2={100} />
           <Line stroke={"black"} x1={100} y1={0} x2={0} y2={100} />
           <Text textAnchor="middle" y="20" x="50">
-            {betaDisplay.toFixed(0) + "°"}
+            {betaDisplay.toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
           <Text textAnchor="middle" y="80" x="50">
-            {(-betaDisplay).toFixed(0) + "°"}
+            {(-betaDisplay).toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
           <Text textAnchor="middle" y="50" x="20">
-            {gammaDisplay.toFixed(0) + "°"}
+            {gammaDisplay.toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
           <Text textAnchor="middle" y="50" x="80">
-            {(-gammaDisplay).toFixed(0) + "°"}
+            {(-gammaDisplay).toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
         </Svg>
         <Button
