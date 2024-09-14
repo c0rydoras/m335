@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from '~/components/ui/select';
 
-function Settings() {
+export default function Screen() {
     const [feedbackValue, setFeedbackValue] = useState<string[]>([]);
     const [angleUnit, setAngleUnit] = useState<string>("deg");
     const [isLoading, setIsLoading] = useState(true);
@@ -103,5 +103,3 @@ function Settings() {
       </View>
     );
 }
-
-export default Settings;
