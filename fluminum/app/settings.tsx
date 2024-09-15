@@ -13,11 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui/select';
+import {useCameraPermissions} from "expo-camera";
 
 export default function Screen() {
     const [feedbackValue, setFeedbackValue] = useState<string[]>([]);
     const [angleUnit, setAngleUnit] = useState<string>("deg");
     const [isLoading, setIsLoading] = useState(true);
+    const [status, requestPermission] = useCameraPermissions();
 
     useMemo(async () => {
         if(!isLoading){
@@ -83,8 +85,23 @@ export default function Screen() {
 
 
         <Text>Feedback-Arten</Text>
-        <ToggleGroup onValueChange={setFeedbackValue} value={feedbackValue} type="multiple">
-            <ToggleGroupItem className={feedbackValue.includes("vibration")?"bg-[#FFE500]":""} value="vibration">
+        <ToggleGroup onValueChange={async (v)=>{
+            if(v.includes("visual")) {
+                if(!status?.granted) {
+                    if(status?.canAskAgain){
+                        const permission = await requestPermission()
+                        if(!permission.granted) {
+                            v = v.filter((e)=>{return e!=="visual"});
+                        }
+                    } else {
+
+                        v = v.filter((e)=>{return e!=="visual"});
+                    }
+                }
+            }
+            setFeedbackValue(v)
+        }} value={feedbackValue} type="multiple">
+            <ToggleGroupItem value="vibration">
                 <Text>
                     Vibration
                 </Text>
