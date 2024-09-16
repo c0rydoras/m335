@@ -18,13 +18,13 @@ export default function Screen() {
   const [magnetometerValue, setMagnetometerValue] = React.useState<number>(0);
   const [sound, setSound] = React.useState<Sound>();
   const [flashlightOn, setFlashlightOn] = React.useState(false);
-  const [{ vibration, visuel, audio }, setSettings] = React.useState<{
+  const [{ vibration, visual, audio }, setSettings] = React.useState<{
     vibration: boolean;
-    visuel: boolean;
+    visual: boolean;
     audio: boolean;
   }>({
     vibration: false,
-    visuel: true,
+    visual: true,
     audio: false,
   });
 
@@ -90,7 +90,7 @@ export default function Screen() {
           const parsedList: string[] = JSON.parse(value);
           setSettings({
             vibration: parsedList.includes("vibration"),
-            visuel: parsedList.includes("visual"),
+            visual: parsedList.includes("visual"),
             audio: parsedList.includes("audio"),
           });
         }
@@ -113,7 +113,7 @@ export default function Screen() {
         backgroundColor="#3d5875"
       />
       <Text className="text-muted-foreground text-6xl">{`${magnetometerValue.toFixed(2)}µT`}</Text>
-      {visuel && <CameraView enableTorch={flashlightOn} />}
+      {visual && <CameraView enableTorch={flashlightOn} />}
     </View>
   );
 }
