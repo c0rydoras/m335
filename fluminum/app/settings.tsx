@@ -1,39 +1,20 @@
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCameraPermissions } from "expo-camera";
 import { AngleUnit } from "./types";
+import { atomWithStorage } from "jotai/utils";
+import storage from "~/lib/storage";
+import { useAtom } from "jotai";
+
+export const angleUnitAtom = atomWithStorage("angleUnit", "deg", storage);
+export const feedbackValueAtom = atomWithStorage("feedbackValue", [], storage);
 
 export default function Screen() {
-  const [feedbackValue, setFeedbackValue] = useState<string[]>([]);
-  const [angleUnit, setAngleUnit] = useState<AngleUnit>("deg");
-  const [isLoading, setIsLoading] = useState(true);
+  const [feedbackValue, setFeedbackValue] =
+    useAtom<string[]>(feedbackValueAtom);
+  const [angleUnit, setAngleUnit] = useAtom<AngleUnit>(angleUnitAtom);
   const [status, requestPermission] = useCameraPermissions();
-
-  useEffect(() => {
-    if (!isLoading) {
-      AsyncStorage.setItem("feedbackValue", JSON.stringify(feedbackValue));
-    }
-  }, [feedbackValue, isLoading]);
-
-  useEffect(() => {
-    if (!isLoading) {
-      AsyncStorage.setItem("angleUnit", angleUnit);
-    }
-  }, [angleUnit, isLoading]);
-
-  useEffect(() => {
-    AsyncStorage.getItem("feedbackValue").then((storedFeedbackValue) => {
-      AsyncStorage.getItem("angleUnit").then((storedAngleUnit) => {
-        storedFeedbackValue &&
-          setFeedbackValue(JSON.parse(storedFeedbackValue));
-        storedAngleUnit && setAngleUnit(storedAngleUnit as AngleUnit);
-        setIsLoading(false);
-      });
-    });
-  }, []);
 
   return (
     <View className="flex-1 items-center gap-5 p-6 bg-secondary/30">
