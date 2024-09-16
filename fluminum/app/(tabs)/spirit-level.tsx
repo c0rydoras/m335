@@ -6,7 +6,7 @@ import { Text as UiText } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useFocusEffect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-type AngleUnit = "rad" | "deg" | "percent"
+type AngleUnit = "rad" | "deg" | "percent";
 
 export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
   const middlePoint = "50,50";
@@ -21,12 +21,15 @@ export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
   return { pointsTop, pointsLeft };
 }
 
-export function calculateCorrectAngleUnit(angleUnit: AngleUnit, radValue: number) {
-  if(angleUnit === 'deg') {
-    return (180 / Math.PI) * radValue
+export function calculateCorrectAngleUnit(
+  angleUnit: AngleUnit,
+  radValue: number,
+) {
+  if (angleUnit === "deg") {
+    return (180 / Math.PI) * radValue;
   }
-  if(angleUnit === 'percent') {
-    return Math.tan(radValue) * 100
+  if (angleUnit === "percent") {
+    return Math.tan(radValue) * 100;
   }
   return radValue;
 }
@@ -37,7 +40,7 @@ export default function Screen() {
     gamma: 0,
   });
 
-  const [angleUnit, setAngleUnit] = useState<AngleUnit>('deg');
+  const [angleUnit, setAngleUnit] = useState<AngleUnit>("deg");
 
   const betaOfset = useRef(0);
   const gammaOfset = useRef(0);
@@ -56,7 +59,7 @@ export default function Screen() {
 
       AsyncStorage.getItem("angleUnit").then((storedAngleUnit) => {
         storedAngleUnit && setAngleUnit(storedAngleUnit as AngleUnit);
-      })
+      });
 
       return () => {
         listener.remove();
@@ -77,11 +80,11 @@ export default function Screen() {
     [beta, gamma],
   );
 
-  const angleUnitSymbols : { [key:string]: string;} = {
-    'deg': '°',
-    'rad': 'rad',
-    'percent': '%'
-  }
+  const angleUnitSymbols: { [key: string]: string } = {
+    deg: "°",
+    rad: "rad",
+    percent: "%",
+  };
 
   return (
     <View className="flex-row flex justify-center w-full">
