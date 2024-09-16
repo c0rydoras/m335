@@ -11,7 +11,7 @@ import { useAtomValue } from "jotai";
 import { feedbackValueAtom } from "../settings";
 import { Audio } from "expo-av";
 import { type Sound } from "expo-av/build/Audio";
-import {CameraView} from "expo-camera";
+import { CameraView } from "expo-camera";
 import * as React from "react";
 
 const foreground = "text-foreground fill-foreground";
@@ -27,28 +27,28 @@ export default function Screen() {
   const feedbackValue = useAtomValue<string[]>(feedbackValueAtom);
   // const soundRef = useRef<Sound | null>(null);
 
-  const [isActive, setActive] = React.useState<boolean>(false)
+  const [isActive, setActive] = React.useState<boolean>(false);
 
   const [sound, setSound] = useState<Sound | null>(null);
 
   useFocusEffect(
     useCallback(() => {
-      setActive(true)
+      setActive(true);
       const listener = Magnetometer.addListener((data) => {
         setAbsoluteMagnetometerValue(calculateAbsoluteMagnetometerValue(data));
       });
 
       return () => {
         listener.remove();
-        setActive(false)
+        setActive(false);
       };
     }, []),
   );
 
- const foundCable = useMemo(
-     ()=>absoluteMagnetometerValue > 200,
-     [absoluteMagnetometerValue]
- )
+  const foundCable = useMemo(
+    () => absoluteMagnetometerValue > 200,
+    [absoluteMagnetometerValue],
+  );
 
   useEffect(() => {
     const loadSound = async () => {
@@ -69,14 +69,14 @@ export default function Screen() {
   }, []);
 
   useEffect(() => {
-    if (!foundCable||!isActive) {
-      sound?.stopAsync().catch(() => {})
+    if (!foundCable || !isActive) {
+      sound?.stopAsync().catch(() => {});
       return;
     }
     feedbackValue.includes("vibration") &&
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     feedbackValue.includes("audio") && sound?.playAsync().catch(() => {});
-  }, [foundCable,isActive]);
+  }, [foundCable, isActive]);
 
   // NOTE: right now this doesn't actually find cables
   // TODO: this is temporary
@@ -96,7 +96,9 @@ export default function Screen() {
           className={foundCable ? yellow : foreground}
         />
       </View>
-      {feedbackValue.includes("visual") && <CameraView enableTorch={foundCable&&isActive} />}
+      {feedbackValue.includes("visual") && (
+        <CameraView enableTorch={foundCable && isActive} />
+      )}
     </View>
   );
 }
