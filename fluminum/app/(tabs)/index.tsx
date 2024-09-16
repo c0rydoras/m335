@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { Zap } from "lucide-react-native";
 import Icon from "~/components/icon";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { Magnetometer, MagnetometerMeasurement } from "expo-sensors";
 import { useFocusEffect } from "expo-router";
 
@@ -29,14 +29,13 @@ export default function Screen() {
 
   // NOTE: right now this doesn't actually find cables
   // TODO: this is temporary
-  const className = useMemo(
-    () => (absoluteMagnetometerValue > 200 ? yellow : foreground),
-    [absoluteMagnetometerValue],
-  );
-
   return (
     <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
-      <Icon icon={Zap} size={200} className={className} />
+      <Icon
+        icon={Zap}
+        size={200}
+        className={absoluteMagnetometerValue > 200 ? yellow : foreground}
+      />
     </View>
   );
 }
