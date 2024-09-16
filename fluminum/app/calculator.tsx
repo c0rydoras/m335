@@ -67,7 +67,7 @@ export default function Screen() {
         <SelectTrigger className="w-[250px]">
           <SelectValue
             className="text-foreground text-sm native:text-lg"
-            placeholder="Wähle eine einheit zum Berechnen aus"
+            placeholder="Wähle eine Einheit zum Berechnen aus"
           />
         </SelectTrigger>
         <SelectContent className="w-[250px]">
