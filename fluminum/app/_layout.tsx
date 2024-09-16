@@ -80,14 +80,14 @@ export default function RootLayout() {
         <Stack.Screen
           name="settings"
           options={{
-            title: "Settings",
+            title: "Einstellungen",
             headerRight: () => <ThemeToggle />,
           }}
         />
         <Stack.Screen
           name="calculator"
           options={{
-            title: "Calculator",
+            title: "Rechner",
             headerRight: () => <LinkIcon href="/settings" Icon={Settings} />,
           }}
         />

@@ -55,7 +55,7 @@ export default function Screen() {
   return (
     <View className="flex-1 justify-top items-center gap-5 p-3 bg-secondary/30">
       <Select
-        defaultValue={{ value: "volt", label: "Calculate Volt" }}
+        defaultValue={{ value: "volt", label: "Volt Berechnen" }}
         onValueChange={(option) => {
           setState((s) => ({
             ...s,
@@ -67,18 +67,18 @@ export default function Screen() {
         <SelectTrigger className="w-[250px]">
           <SelectValue
             className="text-foreground text-sm native:text-lg"
-            placeholder="Select a unit to calculate"
+            placeholder="Wähle eine einheit zum Berechnen aus"
           />
         </SelectTrigger>
         <SelectContent className="w-[250px]">
           <SelectGroup>
-            <SelectItem label="Calculate Volt" value="volt">
+            <SelectItem label="Volt Berechnen" value="volt">
               Volt
             </SelectItem>
-            <SelectItem label="Calculate Watt" value="watt">
+            <SelectItem label="Watt Berechnen" value="watt">
               Watt
             </SelectItem>
-            <SelectItem label="Calculate Ampere" value="ampere">
+            <SelectItem label="Ampere Berechnen" value="ampere">
               Ampere
             </SelectItem>
           </SelectGroup>
