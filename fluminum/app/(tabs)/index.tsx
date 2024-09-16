@@ -8,7 +8,7 @@ import { useFocusEffect } from "expo-router";
 import { Badge } from "~/components/ui/badge";
 
 const foreground = "text-foreground fill-foreground";
-const yellow = "text-yellow-300 fill-yellow-300";
+const yellow = "text-yellow fill-yellow";
 
 const calculateAbsoluteMagnetometerValue = (data: MagnetometerMeasurement) =>
   Math.sqrt(data.x ** 2 + data.y ** 2 + data.z ** 2);

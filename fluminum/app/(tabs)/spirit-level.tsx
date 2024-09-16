@@ -115,8 +115,8 @@ export default function Screen() {
     <View className="flex-row flex justify-center w-full">
       <View className="w-[95%] h-[90%] flex items-center justify-center flex-col">
         <Svg viewBox="0 0 100 100">
-          <Polygon className="fill-yellow-300" points={pointsTop} />
-          <Polygon className="fill-yellow-300" points={pointsLeft} />
+          <Polygon className="fill-yellow" points={pointsTop} />
+          <Polygon className="fill-yellow" points={pointsLeft} />
           <Line
             className="stroke-secondary-foreground"
             x1={0}
@@ -173,7 +173,7 @@ export default function Screen() {
             betaOfset.current = beta + betaOfset.current;
             gammaOfset.current = gamma + gammaOfset.current;
           }}
-          className="bottom-0 bg-yellow-300 text-black w-2/3"
+          className="bottom-0 bg-yellow text-black w-2/3"
         >
           <UiText className="text-black">Referenzpunkt Setzen</UiText>
         </Button>

@@ -122,7 +122,7 @@ export default function Screen() {
         arcSweepAngle={180}
         fill={magnetometerValue / 10}
         className="bg-secondary"
-        tintClassName="bg-yellow-300"
+        tintClassName="bg-yellow"
       />
       <Text className="text-primary text-6xl">{`${magnetometerValue.toFixed(2)}µT`}</Text>
       {visual && <CameraView enableTorch={flashlightOn} />}
