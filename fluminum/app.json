@@ -21,7 +21,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "dev.c0rydoras.fluminum"
+      "package": "dev.c0rydoras.fluminum",
+      "permissions": ["HIGH_SAMPLING_RATE_SENSORS"]
     },
     "web": {
       "bundler": "metro",
