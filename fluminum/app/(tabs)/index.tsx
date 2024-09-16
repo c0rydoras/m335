@@ -69,15 +69,13 @@ export default function Screen() {
   }, []);
 
   useEffect(() => {
-    console.log(foundCable)
     if (!foundCable||!isActive) {
-      console.log("hi")
       sound?.stopAsync().catch(() => {})
       return;
     }
     feedbackValue.includes("vibration") &&
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
-    feedbackValue.includes("audio") && sound?.playAsync();
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    feedbackValue.includes("audio") && sound?.playAsync().catch(() => {});
   }, [foundCable,isActive]);
 
   // NOTE: right now this doesn't actually find cables
