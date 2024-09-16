@@ -11,15 +11,15 @@ export default function Screen() {
     const [isLoading, setIsLoading] = useState(true);
     const [status, requestPermission] = useCameraPermissions();
 
-    useMemo(async () => {
+    useEffect(() => {
         if(!isLoading){
-            await AsyncStorage.setItem("feedbackValue", JSON.stringify(feedbackValue));
+            AsyncStorage.setItem("feedbackValue", JSON.stringify(feedbackValue));
         }
     }, [feedbackValue,isLoading]);
 
-    useMemo(async () => {
+    useEffect(() => {
         if(!isLoading){
-            await AsyncStorage.setItem("angleUnit", angleUnit);
+            AsyncStorage.setItem("angleUnit", angleUnit);
         }
     }, [angleUnit,isLoading]);
 
