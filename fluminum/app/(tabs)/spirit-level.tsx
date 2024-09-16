@@ -94,16 +94,16 @@ export default function Screen() {
           <Polygon fill="#FFE500" points={pointsLeft} />
           <Line stroke={"black"} x1={0} y1={0} x2={100} y2={100} />
           <Line stroke={"black"} x1={100} y1={0} x2={0} y2={100} />
-          <Text textAnchor="middle" y="20" x="50">
+          <Text textAnchor="middle" y="20" x="50" fontSize="10px">
             {betaDisplay.toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
-          <Text textAnchor="middle" y="80" x="50">
+          <Text textAnchor="middle" y="80" x="50" fontSize="10px">
             {(-betaDisplay).toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
-          <Text textAnchor="middle" y="50" x="20">
+          <Text textAnchor="middle" y="50" x="20" fontSize="10px">
             {gammaDisplay.toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
-          <Text textAnchor="middle" y="50" x="80">
+          <Text textAnchor="middle" y="50" x="80" fontSize="10px">
             {(-gammaDisplay).toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
         </Svg>
