@@ -3,16 +3,6 @@ import {Text} from "~/components/ui/text";
 import {ToggleGroup, ToggleGroupItem} from "~/components/ui/toggle-group";
 import {useEffect, useMemo, useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '~/components/ui/select';
 import {useCameraPermissions} from "expo-camera";
 
 export default function Screen() {
@@ -43,45 +33,26 @@ export default function Screen() {
         })
     }, [])
 
-    const insets = useSafeAreaInsets();
-    const contentInsets = {
-      top: insets.top,
-      bottom: insets.bottom,
-      left: 12,
-      right: 12,
-    };
-
-    const angleUnits: { [key:string]: string;} = {
-        "deg": "Deg",
-        "rad": "Rad",
-        "percent": "Percent"
-    }
-
     return (
       <View className="flex-1 items-center gap-5 p-6 bg-secondary/30">
-        <Text>Angle measurement unit</Text>
-        <Select onValueChange={(option) => setAngleUnit(option?.value || 'deg')} value={{'label': angleUnits[angleUnit], value: angleUnit}}>
-            <SelectTrigger className='w-[250px]'>
-                <SelectValue
-                    className='text-foreground text-sm native:text-lg'
-                    placeholder='Select an angle unit'
-                />
-            </SelectTrigger>
-            <SelectContent insets={contentInsets} className='w-[250px]'>
-                <SelectGroup>
-                    <SelectLabel>Angle units</SelectLabel>
-                    <SelectItem label='Deg' value='deg'>
-                        Deg
-                    </SelectItem>
-                    <SelectItem label='Rad' value='rad'>
-                        Rad
-                    </SelectItem>
-                    <SelectItem label='Percent' value='percent'>
-                        Percent
-                    </SelectItem>
-                </SelectGroup>
-            </SelectContent>
-        </Select>
+        <Text>Winkel-Einheit</Text>
+        <ToggleGroup onValueChange={(v)=>{v&&setAngleUnit(v)}} value={angleUnit} type="single">
+            <ToggleGroupItem value="deg">
+                <Text>
+                    Deg
+                </Text>
+            </ToggleGroupItem>
+            <ToggleGroupItem value="rad">
+                <Text>
+                    Rad
+                </Text>
+            </ToggleGroupItem>
+            <ToggleGroupItem value="percent">
+                <Text>
+                    Percent
+                </Text>
+            </ToggleGroupItem>
+        </ToggleGroup>
 
 
         <Text>Feedback-Arten</Text>
