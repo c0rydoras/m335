@@ -6,6 +6,11 @@ module.exports = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
+    colors: {
+      yellow: {
+        '300': "#FFE500",
+      }
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -40,6 +45,9 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        yellow: {
+          DEFAULT: "hsl(var(--yellow))",
         },
       },
       borderWidth: {

@@ -1,3 +1,4 @@
+import { cssInterop } from "nativewind";
 import { View } from "react-native";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { DeviceMotion } from "expo-sensors";
@@ -34,6 +35,33 @@ export function calculateCorrectAngleUnit(
   }
   return radValue;
 }
+
+cssInterop(Polygon, {
+  className: {
+    target: false,
+    nativeStyleToProp: { fill: true, stroke: true },
+  },
+});
+
+cssInterop(Line, {
+  className: {
+    target: false,
+    nativeStyleToProp: {
+      stroke: true,
+      fill: true,
+    },
+  },
+});
+
+cssInterop(Text, {
+  className: {
+    target: false,
+    nativeStyleToProp: {
+      stroke: true,
+      fill: true,
+    },
+  },
+});
 
 export default function Screen() {
   const [{ beta, gamma }, setData] = useState({
@@ -87,20 +115,56 @@ export default function Screen() {
     <View className="flex-row flex justify-center w-full">
       <View className="w-[95%] h-[90%] flex items-center justify-center flex-col">
         <Svg viewBox="0 0 100 100">
-          <Polygon fill="#FFE500" points={pointsTop} />
-          <Polygon fill="#FFE500" points={pointsLeft} />
-          <Line stroke={"black"} x1={0} y1={0} x2={100} y2={100} />
-          <Line stroke={"black"} x1={100} y1={0} x2={0} y2={100} />
-          <Text textAnchor="middle" y="20" x="50" fontSize="10px">
+          <Polygon className="fill-yellow" points={pointsTop} />
+          <Polygon className="fill-yellow" points={pointsLeft} />
+          <Line
+            className="stroke-secondary-foreground"
+            x1={0}
+            y1={0}
+            x2={100}
+            y2={100}
+          />
+          <Line
+            className="stroke-secondary-foreground"
+            x1={100}
+            y1={0}
+            x2={0}
+            y2={100}
+          />
+          <Text
+            textAnchor="middle"
+            y="20"
+            x="50"
+            fontSize="10px"
+            className="fill-primary"
+          >
             {betaDisplay.toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
-          <Text textAnchor="middle" y="80" x="50" fontSize="10px">
+          <Text
+            className="fill-primary"
+            textAnchor="middle"
+            y="80"
+            x="50"
+            fontSize="10px"
+          >
             {(-betaDisplay).toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
-          <Text textAnchor="middle" y="50" x="20" fontSize="10px">
+          <Text
+            className="fill-primary"
+            textAnchor="middle"
+            y="50"
+            x="20"
+            fontSize="10px"
+          >
             {gammaDisplay.toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
-          <Text textAnchor="middle" y="50" x="80" fontSize="10px">
+          <Text
+            className="fill-primary"
+            textAnchor="middle"
+            y="50"
+            x="80"
+            fontSize="10px"
+          >
             {(-gammaDisplay).toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
         </Svg>
@@ -109,7 +173,7 @@ export default function Screen() {
             betaOfset.current = beta + betaOfset.current;
             gammaOfset.current = gamma + gammaOfset.current;
           }}
-          className="bottom-0 bg-[#FFE500] text-black w-2/3"
+          className="bottom-0 bg-yellow text-black w-2/3"
         >
           <UiText className="text-black">Referenzpunkt Setzen</UiText>
         </Button>

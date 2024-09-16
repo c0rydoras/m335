@@ -9,10 +9,22 @@ import { Sound } from "expo-av/build/Audio";
 import { CameraView } from "expo-camera";
 import { useFocusEffect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { cssInterop } from "nativewind";
 
 export function calcSoundRate(absoluteMagnetometerValue: number) {
   return 1 + (4 * absoluteMagnetometerValue) / 1000;
 }
+
+cssInterop(AnimatedCircularProgress, {
+  className: {
+    target: false,
+    nativeStyleToProp: { backgroundColor: true },
+  },
+  tintClassName: {
+    target: false,
+    nativeStyleToProp: { backgroundColor: "tintColor" },
+  },
+});
 
 export default function Screen() {
   const [magnetometerValue, setMagnetometerValue] = React.useState<number>(0);
@@ -109,10 +121,10 @@ export default function Screen() {
         width={15}
         arcSweepAngle={180}
         fill={magnetometerValue / 10}
-        tintColor="#FFE500"
-        backgroundColor="#3d5875"
+        className="bg-secondary"
+        tintClassName="bg-yellow"
       />
-      <Text className="text-muted-foreground text-6xl">{`${magnetometerValue.toFixed(2)}µT`}</Text>
+      <Text className="text-primary text-6xl">{`${magnetometerValue.toFixed(2)}µT`}</Text>
       {visual && <CameraView enableTorch={flashlightOn} />}
     </View>
   );
