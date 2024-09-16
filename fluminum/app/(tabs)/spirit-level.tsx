@@ -6,7 +6,7 @@ import { Text as UiText } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useFocusEffect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-type AngleUnit = "rad" | "deg" | "percent";
+import { AngleUnit } from "../types";
 
 export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
   const middlePoint = "50,50";

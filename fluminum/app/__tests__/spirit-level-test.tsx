@@ -2,6 +2,7 @@ import { calculatePoints } from "~/app/(tabs)/spirit-level";
 import { calculateCorrectAngleUnit } from "~/app/(tabs)/spirit-level";
 import { render } from "@testing-library/react-native";
 import Svg, { Line, Polygon, Text } from "react-native-svg";
+import { AngleUnit } from "../types";
 
 describe("calculatePoints", () => {
   test("topBottomDeg 0 leftRightDeg 0", () => {
@@ -64,7 +65,7 @@ describe("calculate correct angle unit", () => {
   ])(
     "should return the same value when calculating with non supported unit",
     (radValue) => {
-      expect(calculateCorrectAngleUnit(radValue.unit, radValue.value)).toEqual(
+      expect(calculateCorrectAngleUnit(radValue.unit as AngleUnit, radValue.value)).toEqual(
         radValue.value,
       );
     },
