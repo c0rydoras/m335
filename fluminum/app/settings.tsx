@@ -64,14 +64,10 @@ export default function Screen() {
               if (status?.canAskAgain) {
                 const permission = await requestPermission();
                 if (!permission.granted) {
-                  v = v.filter((e) => {
-                    return e !== "visual";
-                  });
+                  v = v.filter((e) => e !== "visual");
                 }
               } else {
-                v = v.filter((e) => {
-                  return e !== "visual";
-                });
+                v = v.filter((e) => e !== "visual");
               }
             }
           }
