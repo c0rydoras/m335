@@ -47,7 +47,7 @@ export default function Screen() {
         const absoluteMagnetometerValue = Math.sqrt(
           measurement.x ** 2 + measurement.y ** 2 + measurement.z ** 2,
         );
-        if (absoluteMagnetometerValue == 0) return;
+        if (absoluteMagnetometerValue === 0) return;
         setMagnetometerValue(absoluteMagnetometerValue);
         if (Date.now() > time) {
           if (vibration) {
