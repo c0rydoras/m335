@@ -79,7 +79,7 @@ export default function Screen() {
               oldSoundRate = newSoundRate;
             }
           } else {
-            sound.stopAsync();
+            sound.stopAsync().catch(() => {});
           }
           time = Date.now() + 20000 / absoluteMagnetometerValue;
         }
