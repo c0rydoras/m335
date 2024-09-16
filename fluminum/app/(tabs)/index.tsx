@@ -2,10 +2,15 @@ import { View } from "react-native";
 import { Zap } from "lucide-react-native";
 import { Text } from "~/components/ui/text";
 import Icon from "~/components/icon";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Magnetometer, MagnetometerMeasurement } from "expo-sensors";
 import { useFocusEffect } from "expo-router";
 import { Badge } from "~/components/ui/badge";
+import * as Haptics from "expo-haptics";
+import { useAtomValue } from "jotai";
+import { feedbackValueAtom } from "../settings";
+import { Audio } from "expo-av";
+import { type Sound } from "expo-av/build/Audio";
 
 const foreground = "text-foreground fill-foreground";
 const yellow = "text-yellow fill-yellow";
@@ -16,6 +21,10 @@ const calculateAbsoluteMagnetometerValue = (data: MagnetometerMeasurement) =>
 export default function Screen() {
   const [absoluteMagnetometerValue, setAbsoluteMagnetometerValue] =
     useState<number>(0);
+
+  const feedbackValue = useAtomValue<string[]>(feedbackValueAtom);
+  // const soundRef = useRef<Sound | null>(null);
+  const [sound, setSound] = useState<Sound | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -28,6 +37,40 @@ export default function Screen() {
       };
     }, []),
   );
+
+  const foundCable = useMemo(
+    () => absoluteMagnetometerValue > 200,
+    [absoluteMagnetometerValue],
+  );
+
+  useEffect(() => {
+    const loadSound = async () => {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/geiger-sound.mp3"),
+      );
+      setSound(sound);
+      await sound.setIsLoopingAsync(false);
+      await sound.playAsync();
+    };
+    loadSound();
+
+    () => {
+      const unloadSound = async () => {
+        await sound?.unloadAsync();
+      };
+      unloadSound();
+    };
+  }, []);
+
+  useEffect(() => {
+    sound?.playAsync();
+    if (!foundCable) {
+      return;
+    }
+    feedbackValue.includes("vibration") &&
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    feedbackValue.includes("audio") && sound?.playAsync();
+  }, [foundCable]);
 
   // NOTE: right now this doesn't actually find cables
   // TODO: this is temporary
@@ -44,8 +87,9 @@ export default function Screen() {
         <Icon
           icon={Zap}
           size={300}
-          className={absoluteMagnetometerValue > 200 ? yellow : foreground}
+          className={foundCable ? yellow : foreground}
         />
+        <Text>{sound?.toString()}</Text>
       </View>
     </View>
   );

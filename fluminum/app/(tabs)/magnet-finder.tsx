@@ -5,7 +5,7 @@ import { Text } from "~/components/ui/text";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
-import { Sound } from "expo-av/build/Audio";
+import { type Sound } from "expo-av/build/Audio";
 import { CameraView } from "expo-camera";
 import { useFocusEffect } from "expo-router";
 import { cssInterop } from "nativewind";
