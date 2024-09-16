@@ -8,6 +8,7 @@ import { useFocusEffect } from "expo-router";
 import { AngleUnit } from "../types";
 import { useAtom } from "jotai";
 import { angleUnitAtom } from "../settings";
+import {useColorScheme} from "~/lib/useColorScheme";
 
 export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
   const middlePoint = "50,50";
@@ -41,6 +42,7 @@ export default function Screen() {
     gamma: 0,
   });
 
+  // @ts-ignore
   const [angleUnit, setAngleUnit] = useAtom<AngleUnit>(angleUnitAtom);
 
   const betaOfset = useRef(0);
@@ -83,24 +85,26 @@ export default function Screen() {
     percent: "%",
   };
 
+  const {isDarkColorScheme} = useColorScheme()
+
   return (
     <View className="flex-row flex justify-center w-full">
       <View className="w-[95%] h-[90%] flex items-center justify-center flex-col">
         <Svg viewBox="0 0 100 100">
           <Polygon fill="#FFE500" points={pointsTop} />
           <Polygon fill="#FFE500" points={pointsLeft} />
-          <Line stroke={"black"} x1={0} y1={0} x2={100} y2={100} />
-          <Line stroke={"black"} x1={100} y1={0} x2={0} y2={100} />
-          <Text textAnchor="middle" y="20" x="50" fontSize="10px">
+          <Line stroke={isDarkColorScheme?"white":"black"} x1={0} y1={0} x2={100} y2={100} />
+          <Line stroke={isDarkColorScheme?"white":"black"} x1={100} y1={0} x2={0} y2={100} />
+          <Text textAnchor="middle" y="20" x="50" fontSize="10px" fill={isDarkColorScheme?"white":"black"}>
             {betaDisplay.toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
-          <Text textAnchor="middle" y="80" x="50" fontSize="10px">
+          <Text textAnchor="middle" y="80" x="50" fontSize="10px" fill={isDarkColorScheme?"white":"black"}>
             {(-betaDisplay).toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
-          <Text textAnchor="middle" y="50" x="20" fontSize="10px">
+          <Text textAnchor="middle" y="50" x="20" fontSize="10px" fill={isDarkColorScheme?"white":"black"}>
             {gammaDisplay.toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
-          <Text textAnchor="middle" y="50" x="80" fontSize="10px">
+          <Text textAnchor="middle" y="50" x="80" fontSize="10px" fill={isDarkColorScheme?"white":"black"}>
             {(-gammaDisplay).toFixed(2) + angleUnitSymbols[angleUnit]}
           </Text>
         </Svg>
