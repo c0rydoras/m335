@@ -6,6 +6,7 @@ import { Text as UiText } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useFocusEffect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+type AngleUnit = "rad" | "deg" | "percent"
 
 export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
   const middlePoint = "50,50";
@@ -20,7 +21,7 @@ export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
   return { pointsTop, pointsLeft };
 }
 
-export function calculateCorrectAngleUnit(angleUnit: string, radValue: number) {
+export function calculateCorrectAngleUnit(angleUnit: AngleUnit, radValue: number) {
   if(angleUnit === 'deg') {
     return (180 / Math.PI) * radValue
   }
@@ -36,7 +37,7 @@ export default function Screen() {
     gamma: 0,
   });
 
-  const [angleUnit, setAngleUnit] = useState<string>('deg');
+  const [angleUnit, setAngleUnit] = useState<AngleUnit>('deg');
 
   const betaOfset = useRef(0);
   const gammaOfset = useRef(0);
@@ -54,7 +55,7 @@ export default function Screen() {
       });
 
       AsyncStorage.getItem("angleUnit").then((storedAngleUnit) => {
-        storedAngleUnit && setAngleUnit(storedAngleUnit);
+        storedAngleUnit && setAngleUnit(storedAngleUnit as AngleUnit);
       })
 
       return () => {

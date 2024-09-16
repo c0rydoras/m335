@@ -1,13 +1,14 @@
 import {View} from "react-native";
 import {Text} from "~/components/ui/text";
 import {ToggleGroup, ToggleGroupItem} from "~/components/ui/toggle-group";
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useCameraPermissions} from "expo-camera";
+type AngleUnit = "rad" | "deg" | "percent"
 
 export default function Screen() {
     const [feedbackValue, setFeedbackValue] = useState<string[]>([]);
-    const [angleUnit, setAngleUnit] = useState<string>("deg");
+    const [angleUnit, setAngleUnit] = useState<AngleUnit>("deg");
     const [isLoading, setIsLoading] = useState(true);
     const [status, requestPermission] = useCameraPermissions();
 
@@ -27,7 +28,7 @@ export default function Screen() {
         AsyncStorage.getItem("feedbackValue").then((storedFeedbackValue) => {
             AsyncStorage.getItem("angleUnit").then((storedAngleUnit) => {
                 storedFeedbackValue && setFeedbackValue(JSON.parse(storedFeedbackValue));
-                storedAngleUnit && setAngleUnit(storedAngleUnit);
+                storedAngleUnit && setAngleUnit(storedAngleUnit as AngleUnit);
                 setIsLoading(false);
             })
         })
@@ -36,7 +37,7 @@ export default function Screen() {
     return (
       <View className="flex-1 items-center gap-5 p-6 bg-secondary/30">
         <Text>Winkel-Einheit</Text>
-        <ToggleGroup onValueChange={(v)=>{v&&setAngleUnit(v)}} value={angleUnit} type="single">
+        <ToggleGroup onValueChange={(v)=>{v&&setAngleUnit(v as AngleUnit)}} value={angleUnit} type="single">
             <ToggleGroupItem value="deg">
                 <Text>
                     Deg
