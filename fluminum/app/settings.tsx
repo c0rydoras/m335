@@ -5,10 +5,21 @@ import { useCameraPermissions } from "expo-camera";
 import { AngleUnit } from "./types";
 import { atomWithStorage } from "jotai/utils";
 import storage from "~/lib/storage";
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
 
 export const angleUnitAtom = atomWithStorage("angleUnit", "deg", storage);
 export const feedbackValueAtom = atomWithStorage("feedbackValue", [], storage);
+export const feedbackAtom = atom(async (get) => {
+  const feedbackValue = (await get(feedbackValueAtom)) as string[];
+  const visual = feedbackValue.includes("visual");
+  const audio = feedbackValue.includes("audio");
+  const vibration = feedbackValue.includes("vibration");
+  return {
+    audio,
+    vibration,
+    visual,
+  };
+});
 
 export default function Screen() {
   const [feedbackValue, setFeedbackValue] =

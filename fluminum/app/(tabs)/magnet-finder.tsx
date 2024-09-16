@@ -8,8 +8,9 @@ import { Audio } from "expo-av";
 import { Sound } from "expo-av/build/Audio";
 import { CameraView } from "expo-camera";
 import { useFocusEffect } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { cssInterop } from "nativewind";
+import { useAtomValue } from "jotai";
+import { feedbackAtom } from "../settings";
 
 export function calcSoundRate(absoluteMagnetometerValue: number) {
   return 1 + (4 * absoluteMagnetometerValue) / 1000;
@@ -30,15 +31,7 @@ export default function Screen() {
   const [magnetometerValue, setMagnetometerValue] = React.useState<number>(0);
   const [sound, setSound] = React.useState<Sound>();
   const [flashlightOn, setFlashlightOn] = React.useState(false);
-  const [{ vibration, visual, audio }, setSettings] = React.useState<{
-    vibration: boolean;
-    visual: boolean;
-    audio: boolean;
-  }>({
-    vibration: false,
-    visual: true,
-    audio: false,
-  });
+  const { vibration, visual, audio } = useAtomValue(feedbackAtom);
 
   async function loadSound() {
     const { sound } = await Audio.Sound.createAsync(
@@ -97,16 +90,6 @@ export default function Screen() {
   useFocusEffect(
     React.useCallback(() => {
       loadSound();
-      AsyncStorage.getItem("feedbackValue").then((value) => {
-        if (value) {
-          const parsedList: string[] = JSON.parse(value);
-          setSettings({
-            vibration: parsedList.includes("vibration"),
-            visual: parsedList.includes("visual"),
-            audio: parsedList.includes("audio"),
-          });
-        }
-      });
       return () => {
         setFlashlightOn(false);
       };
