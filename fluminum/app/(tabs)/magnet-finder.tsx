@@ -8,6 +8,7 @@ import { Audio } from "expo-av";
 import { Sound } from "expo-av/build/Audio";
 import { CameraView } from "expo-camera";
 import { useFocusEffect } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function calcSoundRate(absoluteMagnetometerValue: number) {
   return 1 + (4 * absoluteMagnetometerValue) / 1000;
@@ -17,6 +18,15 @@ export default function Screen() {
   const [magnetometerValue, setMagnetometerValue] = React.useState<number>(0);
   const [sound, setSound] = React.useState<Sound>();
   const [flashlightOn, setFlashlightOn] = React.useState(false);
+  const [{ vibration, visual, audio }, setSettings] = React.useState<{
+    vibration: boolean;
+    visual: boolean;
+    audio: boolean;
+  }>({
+    vibration: false,
+    visual: true,
+    audio: false,
+  });
 
   async function loadSound() {
     const { sound } = await Audio.Sound.createAsync(
@@ -40,23 +50,30 @@ export default function Screen() {
         if (absoluteMagnetometerValue == 0) return;
         setMagnetometerValue(absoluteMagnetometerValue);
         if (Date.now() > time) {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-          setFlashlightOn((value) => !value);
-
-          const newSoundRate = calcSoundRate(absoluteMagnetometerValue);
-          let soundRateUpdateThreshold = Math.abs(newSoundRate - oldSoundRate);
-          if (soundRateUpdateThreshold < 0 || soundRateUpdateThreshold > 32) {
-            soundRateUpdateThreshold = 1;
+          if (vibration) {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
           }
-          if (soundRateUpdateThreshold > 0.2) {
-            sound.setRateAsync(newSoundRate, false);
-            oldSoundRate = newSoundRate;
+          setFlashlightOn((value) => !value);
+          if (audio) {
+            const newSoundRate = calcSoundRate(absoluteMagnetometerValue);
+            let soundRateUpdateThreshold = Math.abs(
+              newSoundRate - oldSoundRate,
+            );
+            if (soundRateUpdateThreshold < 0 || soundRateUpdateThreshold > 32) {
+              soundRateUpdateThreshold = 1;
+            }
+            if (soundRateUpdateThreshold > 0.2) {
+              sound.setRateAsync(newSoundRate, false);
+              oldSoundRate = newSoundRate;
+            }
+          } else {
+            sound.stopAsync();
           }
           time = Date.now() + 20000 / absoluteMagnetometerValue;
         }
       });
 
-      Magnetometer.setUpdateInterval(30);
+      Magnetometer.setUpdateInterval(50);
 
       return () => {
         listener.remove();
@@ -68,6 +85,19 @@ export default function Screen() {
   useFocusEffect(
     React.useCallback(() => {
       loadSound();
+      AsyncStorage.getItem("feedbackValue").then((value) => {
+        if (value) {
+          const parsedList: string[] = JSON.parse(value);
+          setSettings({
+            vibration: parsedList.includes("vibration"),
+            visual: parsedList.includes("visual"),
+            audio: parsedList.includes("audio"),
+          });
+        }
+      });
+      return () => {
+        setFlashlightOn(false);
+      };
     }, []),
   );
 
@@ -83,7 +113,7 @@ export default function Screen() {
         backgroundColor="#3d5875"
       />
       <Text className="text-muted-foreground text-6xl">{`${magnetometerValue.toFixed(2)}µT`}</Text>
-      <CameraView enableTorch={flashlightOn} />
+      {visual && <CameraView enableTorch={flashlightOn} />}
     </View>
   );
 }

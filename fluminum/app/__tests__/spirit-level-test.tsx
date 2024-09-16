@@ -1,4 +1,5 @@
 import { calculatePoints } from "~/app/(tabs)/spirit-level";
+import { calculateCorrectAngleUnit } from "~/app/(tabs)/spirit-level";
 import { render } from "@testing-library/react-native";
 import Svg, { Line, Polygon, Text } from "react-native-svg";
 
@@ -48,4 +49,43 @@ describe("svgRendering", () => {
     );
     expect(tree).toMatchSnapshot();
   });
+});
+describe("calculate correct angle unit", () => {
+  it.each([22, 100, 90, 47, 20, 100])(
+    "should return the same value when calculating with rad",
+    (radValue) => {
+      expect(calculateCorrectAngleUnit("rad", radValue)).toEqual(radValue);
+    },
+  );
+  it.each([
+    { unit: "unit that doesnt exist", value: 22 },
+    { unit: "some unfathomable unit", value: 100 },
+    { unit: "asdf", value: 90 },
+  ])(
+    "should return the same value when calculating with non supported unit",
+    (radValue) => {
+      expect(calculateCorrectAngleUnit(radValue.unit, radValue.value)).toEqual(
+        radValue.value,
+      );
+    },
+  );
+  it.each([
+    { value: Math.PI / 2, solution: 90 },
+    { value: 1, solution: 57.2958 },
+    { value: 3.5, solution: 200.535 },
+    { value: 2 * Math.PI, solution: 360 },
+    { value: 0, solution: 0 },
+  ])("should correctly calculate degree when given rad", (radValue) => {
+    expect(calculateCorrectAngleUnit("deg", radValue.value)).toBeCloseTo(
+      radValue.solution,
+    );
+  });
+  it.each([{ value: Math.PI / 4, solution: 100 }])(
+    "should correctly calculate percent when given rad",
+    (radValue) => {
+      expect(calculateCorrectAngleUnit("percent", radValue.value)).toBeCloseTo(
+        radValue.solution,
+      );
+    },
+  );
 });
