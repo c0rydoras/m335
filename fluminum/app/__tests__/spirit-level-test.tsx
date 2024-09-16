@@ -65,9 +65,9 @@ describe("calculate correct angle unit", () => {
   ])(
     "should return the same value when calculating with non supported unit",
     (radValue) => {
-      expect(calculateCorrectAngleUnit(radValue.unit as AngleUnit, radValue.value)).toEqual(
-        radValue.value,
-      );
+      expect(
+        calculateCorrectAngleUnit(radValue.unit as AngleUnit, radValue.value),
+      ).toEqual(radValue.value);
     },
   );
   it.each([

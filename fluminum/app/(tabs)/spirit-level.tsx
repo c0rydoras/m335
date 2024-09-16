@@ -5,8 +5,9 @@ import Svg, { Text, Line, Polygon } from "react-native-svg";
 import { Text as UiText } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useFocusEffect } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AngleUnit } from "../types";
+import { useAtom } from "jotai";
+import { angleUnitAtom } from "../settings";
 
 export function calculatePoints(topBottomDeg: number, leftRightDeg: number) {
   const middlePoint = "50,50";
@@ -40,7 +41,7 @@ export default function Screen() {
     gamma: 0,
   });
 
-  const [angleUnit, setAngleUnit] = useState<AngleUnit>("deg");
+  const [angleUnit, setAngleUnit] = useAtom<AngleUnit>(angleUnitAtom);
 
   const betaOfset = useRef(0);
   const gammaOfset = useRef(0);
@@ -55,10 +56,6 @@ export default function Screen() {
           localData.gamma = data.rotation.gamma - gammaOfset.current;
           setData(localData);
         }
-      });
-
-      AsyncStorage.getItem("angleUnit").then((storedAngleUnit) => {
-        storedAngleUnit && setAngleUnit(storedAngleUnit as AngleUnit);
       });
 
       return () => {
