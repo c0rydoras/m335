@@ -77,7 +77,7 @@ export default function Screen() {
       betaDisplay: calculateCorrectAngleUnit(angleUnit, beta),
       gammaDisplay: calculateCorrectAngleUnit(angleUnit, gamma),
     }),
-    [beta, gamma],
+    [beta, gamma, angleUnit],
   );
 
   const angleUnitSymbols: { [key: string]: string } = {
