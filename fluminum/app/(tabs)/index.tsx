@@ -2,10 +2,17 @@ import { View } from "react-native";
 import { Zap } from "lucide-react-native";
 import { Text } from "~/components/ui/text";
 import Icon from "~/components/icon";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Magnetometer, MagnetometerMeasurement } from "expo-sensors";
 import { useFocusEffect } from "expo-router";
 import { Badge } from "~/components/ui/badge";
+import * as Haptics from "expo-haptics";
+import { useAtomValue } from "jotai";
+import { feedbackValueAtom } from "../settings";
+import { Audio } from "expo-av";
+import { type Sound } from "expo-av/build/Audio";
+import { CameraView } from "expo-camera";
+import * as React from "react";
 
 const foreground = "text-foreground fill-foreground";
 const yellow = "text-yellow fill-yellow";
@@ -17,17 +24,58 @@ export default function Screen() {
   const [absoluteMagnetometerValue, setAbsoluteMagnetometerValue] =
     useState<number>(0);
 
+  const feedbackValue = useAtomValue<string[]>(feedbackValueAtom);
+
+  const [isActive, setActive] = React.useState<boolean>(false);
+
+  const [sound, setSound] = useState<Sound | null>(null);
+
   useFocusEffect(
     useCallback(() => {
+      setActive(true);
       const listener = Magnetometer.addListener((data) => {
         setAbsoluteMagnetometerValue(calculateAbsoluteMagnetometerValue(data));
       });
 
       return () => {
         listener.remove();
+        setActive(false);
       };
     }, []),
   );
+
+  const foundCable = useMemo(
+    () => absoluteMagnetometerValue > 200,
+    [absoluteMagnetometerValue],
+  );
+
+  useEffect(() => {
+    const loadSound = async () => {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/geiger-sound.mp3"),
+      );
+      await sound.setIsLoopingAsync(true);
+      setSound(sound);
+    };
+    loadSound();
+
+    return () => {
+      const unloadSound = async () => {
+        await sound?.unloadAsync().catch(() => {});
+      };
+      unloadSound();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!foundCable || !isActive) {
+      sound?.stopAsync().catch(() => {});
+      return;
+    }
+    feedbackValue.includes("vibration") &&
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    feedbackValue.includes("audio") && sound?.playAsync().catch(() => {});
+  }, [foundCable, isActive]);
 
   // NOTE: right now this doesn't actually find cables
   // TODO: this is temporary
@@ -44,9 +92,12 @@ export default function Screen() {
         <Icon
           icon={Zap}
           size={300}
-          className={absoluteMagnetometerValue > 200 ? yellow : foreground}
+          className={foundCable ? yellow : foreground}
         />
       </View>
+      {feedbackValue.includes("visual") && (
+        <CameraView enableTorch={foundCable && isActive} />
+      )}
     </View>
   );
 }
