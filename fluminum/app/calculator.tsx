@@ -34,10 +34,9 @@ export const titelize = (str: string) =>
 /**
  * Functions for calculating electrical units (ampere, volt and watt).
  */
-export const UNIT_CALCULATION_MAP: Record<
-  keyof State,
-  (parsedState: ParsedState) => number
-> = {
+export const UNIT_CALCULATION_MAP: {
+  [K in keyof State]: (state: Omit<ParsedState, K>) => number;
+} = {
   watt: ({ volt, ampere }) => volt * ampere,
   volt: ({ watt, ampere }) => watt / ampere,
   ampere: ({ watt, volt }) => watt / volt,
