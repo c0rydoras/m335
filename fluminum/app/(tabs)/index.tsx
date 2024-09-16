@@ -25,7 +25,6 @@ export default function Screen() {
     useState<number>(0);
 
   const feedbackValue = useAtomValue<string[]>(feedbackValueAtom);
-  // const soundRef = useRef<Sound | null>(null);
 
   const [isActive, setActive] = React.useState<boolean>(false);
 
