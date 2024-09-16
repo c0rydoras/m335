@@ -11,44 +11,65 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 
+/**
+ * Represents ampere, volt, watt in an object as strings.
+ */
 export type State = {
-  watt: number | null;
-  volt: number | null;
-  ampere: number | null;
+  watt: string;
+  volt: string;
+  ampere: string;
 };
 
-export const isNull = (val: unknown): val is null => val === null;
+/**
+ * State object parsed into numbers.
+ */
+export type ParsedState = Record<keyof State, number>;
+
+/**
+ * Uppercases the first letter of a string.
+ */
 export const titelize = (str: string) =>
   str ? str[0].toUpperCase() + str.slice(1) : str;
 
-export const calcuateMap: Record<keyof State, (state: State) => number | null> =
-  {
-    watt: ({ volt, ampere }) =>
-      isNull(ampere) || isNull(volt) || ampere === 0 ? null : volt / ampere,
-    volt: ({ watt, ampere }) =>
-      isNull(watt) || isNull(ampere) ? null : watt * ampere,
-    ampere: ({ watt, volt }) =>
-      isNull(watt) || isNull(volt) || volt === 0 ? null : watt / volt,
-  };
+/**
+ * Functions for calculating electrical units (ampere, volt and watt).
+ */
+export const UNIT_CALCULATION_MAP: Record<
+  keyof State,
+  (parsedState: ParsedState) => number
+> = {
+  watt: ({ volt, ampere }) => volt * ampere,
+  volt: ({ watt, ampere }) => watt / ampere,
+  ampere: ({ watt, volt }) => watt / volt,
+};
 
 export default function Screen() {
   const [state, setState] = React.useState<State>({
-    volt: null,
-    watt: 0,
-    ampere: 0,
+    volt: "",
+    watt: "0",
+    ampere: "0",
   });
 
   const [selectedUnit, setSelectedUnit] = React.useState<keyof State>("volt");
+  const parsedState = React.useMemo<ParsedState>(
+    () =>
+      Object.fromEntries(
+        Object.entries(state).map(([k, v]) => [k, parseFloat(v)]),
+      ) as ParsedState,
+    [state],
+  );
 
-  const calculatedState = React.useMemo<State>(() => {
-    return { ...state, [selectedUnit]: calcuateMap[selectedUnit](state) };
-  }, [state, selectedUnit]);
+  const calculatedState = React.useMemo<ParsedState>(() => {
+    return {
+      ...parsedState,
+      [selectedUnit]: UNIT_CALCULATION_MAP[selectedUnit](parsedState),
+    };
+  }, [parsedState, selectedUnit]);
 
   const updateState = (key: keyof State) => (text: string) => {
-    const val = parseFloat(text);
     setState((s) => ({
       ...s,
-      [key]: isNaN(val) ? null : val,
+      [key]: text,
     }));
   };
 
@@ -57,9 +78,14 @@ export default function Screen() {
       <Select
         defaultValue={{ value: "volt", label: "Volt Berechnen" }}
         onValueChange={(option) => {
+          const calculatedValue = calculatedState[selectedUnit];
+          // if the calculatedValue is NaN we set it to 0 for imporved UX
           setState((s) => ({
             ...s,
-            [selectedUnit]: calculatedState[selectedUnit],
+            [selectedUnit]: (isNaN(calculatedValue)
+              ? 0
+              : calculatedValue
+            ).toString(),
           }));
           setSelectedUnit(option?.value as keyof State);
         }}
@@ -94,7 +120,12 @@ export default function Screen() {
             className="w-full text-xl rounded-none"
             aria-labelledby={k + "-label"}
             keyboardType="numeric"
-            value={calculatedState[k as keyof State]?.toString() ?? ""}
+            // show calculated value if its the selected unit else show text value
+            value={
+              selectedUnit === k
+                ? calculatedState[k as keyof State]?.toString()
+                : state[k as keyof State]
+            }
             editable={selectedUnit !== k}
             onChangeText={updateState(k as keyof State)}
           />

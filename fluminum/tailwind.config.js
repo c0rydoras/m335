@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     colors: {
       yellow: {
-        '300': "#FFE500",
-      }
+        300: "#FFE500",
+      },
     },
     extend: {
       colors: {
