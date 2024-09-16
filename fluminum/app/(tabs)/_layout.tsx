@@ -13,21 +13,21 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Cable Finder",
+          title: "Kabelfinder",
           tabBarIcon: (props) => <Icon icon={Cable} {...props} />,
         }}
       />
       <Tabs.Screen
         name="magnet-finder"
         options={{
-          title: "Magnet Finder",
+          title: "Magnetfinder",
           tabBarIcon: (props) => <Icon icon={Magnet} {...props} />,
         }}
       />
       <Tabs.Screen
         name="spirit-level"
         options={{
-          title: "Spirit Level",
+          title: "Wasserwaage",
           tabBarIcon: (props) => <Icon icon={EqualSquare} {...props} />,
         }}
       />

@@ -33,7 +33,7 @@ export default function Screen() {
           <Text>Rad</Text>
         </ToggleGroupItem>
         <ToggleGroupItem value="percent">
-          <Text>Percent</Text>
+          <Text>Prozent</Text>
         </ToggleGroupItem>
       </ToggleGroup>
 
