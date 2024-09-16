@@ -4,7 +4,7 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCameraPermissions } from "expo-camera";
-type AngleUnit = "rad" | "deg" | "percent";
+import { AngleUnit } from "./types";
 
 export default function Screen() {
   const [feedbackValue, setFeedbackValue] = useState<string[]>([]);
